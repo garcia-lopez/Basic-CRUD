@@ -1,0 +1,267 @@
+/* static/style.css */
+* {
+    font-family: 'Sora';
+}
+body, .main, .body_form{
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 20px;
+    position: relative;
+}
+
+body, .main {
+    background-color: rgb(15, 15, 50);
+}
+
+.main {
+    min-height: 100vh; /* Ensures the body takes up at least the full height of the viewport */
+}
+
+h1, .h1_delete {
+    color: #DABF77;
+    text-align: center;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+.container::after {
+    content: "";
+    display: block;
+    clear: both;
+  }
+  
+.element {
+    position: relative; /* Ensures the pseudo-element is positioned relative to its parent */
+    background-color: rgb(21, 21, 81);
+    border: 2px solid #DABF77;
+    border-radius: 16px;
+    padding: 20px;
+    width: 200px;
+    height: 250px; /* Fixed height for each card */
+    box-sizing: border-box;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(21, 21, 81, 0.5);
+    overflow: hidden; /* Prevents content overflow */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Sora';
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+.element::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #453DA0; /* Semi-transparent blue layer */
+    opacity: 0;
+    transition: opacity 0.3s ease; /* Smooth transition for the overlay */
+    border-radius: 16px; /* Matches the border radius of the parent element */
+    z-index: 1; /* Ensures the overlay is above the content */
+}
+
+.element:hover::before {
+    opacity: 1; /* Shows the blue overlay on hover */
+}
+
+.element:hover {
+    width: 250px;
+    height: 350px; /* Fixed height for each card */
+    box-shadow: 0 9px 8px #FFFACD;
+    font-size: 20px;
+}
+
+/* Ensures the content is above the overlay */
+.element > * {
+    position: relative;
+    z-index: 2;
+}
+strong {
+    color: #DABF77;
+    font-size: 15px;
+}
+
+p {
+    color: #FFFACD;
+    font-size: 12px;
+}
+
+.title {
+    transition: all 0.5s ease; /* Smooth transition */
+}
+.title:hover {
+    font-size: 40px;
+}
+
+.filtered, .label-form {
+    color: #FFFACD;
+    font-weight: bolder;
+}
+
+p strong {
+    font-size: 12px;
+}
+
+.button_class, .button_class_categories, .button_form {
+    background-color: #151551;
+    color: #DABF77;
+    font-weight: bold;
+    padding: 10px;
+    border-radius: 16px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(21, 21, 81, 0.5);
+    border: none;
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+.button_class_categories {
+    width: 100px;
+}
+
+.button_class:hover,
+.button_class_categories:hover {
+    background-color: #DABF77 ;
+    color: #151551;
+    font-weight: bold;
+}
+
+.categories {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 500px) {
+    .categories {
+        justify-content: center;
+    }
+    
+}
+
+@media (max-width: 850px) {
+    .categories {
+        justify-content: left;
+    }
+
+    
+}
+
+.body_form {
+    background-image: url(lights_background.jpg);
+    background-size: cover; /* Makes the background image cover the entire container */
+    background-position: center; /* Centers the background image */
+    background-repeat: no-repeat; /* Prevents the background image from repeating */
+}
+/*Trying to style the form */
+.formulario {
+    display: flex;
+    justify-items: center;
+    align-content: center;
+    flex-direction: column;
+    width: 80%;
+    height: auto;
+    padding: 30px;
+    border-radius: 16px;
+    background-color: rgba(255,255,255,0.5);
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 700px;
+}
+.label-form {
+    display: block;
+    color: rgb(21, 21, 81);
+    margin-bottom: 10px;
+    /*This is to give a border effect to my text */
+    text-shadow: 
+        1px 1px 0px #FFFACD, /* Right shadow */ 
+        -1px -1px 0px #FFFACD, /* Left shadow */
+        -1px 1px 0px #FFFACD, /* Top shadow */
+        1px -1px 0px #FFFACD /* Bottom shadow */
+}
+
+.button_form {
+    align-self:  center;
+    background-color:#FFFACD ;
+    color: #151551;
+    transition: all 0.3s ease; /* Smooth transition */
+}
+
+.button_form:hover {
+    background-color: #DABF77 ;
+    font-weight: bold;
+}
+
+.input-form, .textarea-form {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.back_arrow {
+    height: 50px;
+    width: 50px;
+}
+
+.back_arrow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 10px;
+    margin-left: 10px;
+    width: 50px; /* Adjust size as needed */
+    height: 50px; /* Adjust size as needed */
+}
+
+/*Styling my edit and delete buttons */
+
+.container_buttons[hidden] {
+    visibility: hidden;
+    opacity: 0; /* Make it invisible */
+    transition: visibility 0s, opacity 0.2s ease-in-out; /* Smooth transition */
+
+}
+
+.container_buttons:hover[hidden] {
+    visibility: visible;
+    opacity: 1; /* Make it visible */
+    transition: visibility 0s, opacity 0.2s ease-in-out; /* Smooth transition */
+}
+
+.genre_options {
+    border: 2px solid #DABF77;
+    border-radius: 16px;
+    padding: 20px;
+    margin-bottom: 20px;
+    font-family: 'Sora';
+}
+
+.yes_no {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.button_yes_no {
+    width: 100px;
+}
+
+.h1_delete {
+    max-width: 700px;
+}
