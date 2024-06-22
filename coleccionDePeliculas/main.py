@@ -118,7 +118,7 @@ def get_movie_categories(categorie: str):
     return HTMLResponse(content=html_content)
 
 
-def form(title, actions, movie=None):
+def form(button_text, title, actions, movie=None):
     current_year = datetime.now().year
     _inputs = f""" <label class="label-form" for="title">Title:</label>
         <input class="input-form" type="text" id="title" name="title" required>
@@ -172,7 +172,7 @@ def form(title, actions, movie=None):
         <label class="label-form" for="synopsis">Synopsis:</label>
         <textarea class="textarea-form" id="synopsis" name="synopsis" rows="4" required></textarea>
         
-        <button class="button_form" type="submit">Add Movie</button>
+        <button class="button_form" type="submit">{button_text}</button>
     </form>
 </body>"""
 
@@ -183,7 +183,7 @@ def get_formulario():
 
     _form = f"""
        {cabeza("Add a New Movie")}
-       {form("Add a New Movie","/movies/add")}
+       {form("Add movie","Add a New Movie","/movies/add")}
 </html>
     """
     return HTMLResponse(content=_form)
@@ -258,7 +258,7 @@ def update_form(id: int):
     # With this expression, the genres that the movie contains are selected and the corresponding checkboxes are marked "checked" if "Crime" in movie["genre"] else ""
     _form = f"""
          {cabeza("Edit Movie")}
-         {form("Edit Movie","/movies/update/{id}", movie)}
+         {form("Update Movie","Edit Movie",f"/movies/update/{id}", movie)}
 
 </html>
     """
