@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import RedirectResponse
 from movie_data import movies
+from datetime import datetime
 from typing import List
 
 
@@ -77,7 +78,7 @@ def obtener_peliculas():
             <div class="categories">
                <a href="/movies/filter/Action"><button class="button_class_categories">Action</button></a>
                <a href="/movies/filter/Adventure"><button class="button_class_categories">Adventure</button></a>
-               <a href="/movies/filter/Crime=Crime"><button class="button_class_categories">Crime</button></a>
+               <a href="/movies/filter/Crime"><button class="button_class_categories">Crime</button></a>
                <a href="/movies/filter/Drama"><button class="button_class_categories">Drama</button></a>
                <a href="/movies/filter/Romance"><button class="button_class_categories">Romance</button></a>
                <a href="/movies/filter/Sci-Fi"><button class="button_class_categories">Sci-Fi</button></a>
@@ -117,25 +118,17 @@ def get_movie_categories(categorie: str):
     return HTMLResponse(content=html_content)
 
 
-# Route to go to the form to add a new movie
-@app.get("/movies/addMovie", tags=["movies"], response_class=HTMLResponse)
-def get_formulario():
-    form = f"""
-       {cabeza("Add a New Movie")}
-<body class="body_form">
-    <a href="/movies" ><img class="back_arrow" src="/static/respuesta.png" alt="Back Arrow"></a>
-    <h1>Add a New Movie</h1>
-    <form class="formulario" action="/movies/add" method="post">       
-        <label class="label-form" for="title">Title:</label>
+def form(title, actions, movie=None):
+    current_year = datetime.now().year
+    _inputs = f""" <label class="label-form" for="title">Title:</label>
         <input class="input-form" type="text" id="title" name="title" required>
         
         <label  class="label-form" for="director">Director:</label>
         <input  class="input-form" type="text" id="director" name="director" required>
         
         <label class="label-form" for="year">Year:</label>
-        <input class="input-form" type="number" id="year" name="year" min=1888 required>
-        
-        <label class="label-form" for="genre">Genre</label>
+        <input class="input-form" type="number" id="year" name="year" min=1888 max={current_year} required>"""
+    checked = """ 
         <fieldset class="genre_options">
           <input type="checkbox" name="genre" value="Action"> Action
           <input type="checkbox" name="genre" value="Adventure"> Adventure
@@ -146,15 +139,54 @@ def get_formulario():
           <input type="checkbox" name="genre" value="Thriller"> Thriller
         </fieldset>
         
-        <label  class="label-form" for="synopsis">Synopsis:</label>
+        """
+    if movie != None:
+        _inputs = f"""        <label class="label-form" for="title">Title:</label>
+        <input class="input-form" type="text" id="title" name="title" value="{movie['title']}" required>
+        
+        <label class="label-form" for="director">Director:</label>
+        <input class="input-form" type="text" id="director" name="director" value="{movie['director']}" required>
+        
+        <label class="label-form" for="year">Year:</label>
+        <input class="input-form" type="number" id="year" name="year" value="{movie['year']}" min=1888 required>
+        """
+        checked = f"""<fieldset class="genre_options">
+          <input type="checkbox" name="genre" value="Action" {"checked" if "Action" in movie["genre"] else ""}> Action
+          <input type="checkbox" name="genre" value="Adventure" {"checked" if "Adventure" in movie["genre"] else ""}> Adventure
+          <input type="checkbox" name="genre" value="Crime" {"checked" if "Crime" in movie["genre"] else ""}> Crime
+          <input type="checkbox" name="genre" value="Drama" {"checked" if "Drama" in movie["genre"] else ""}> Drama
+          <input type="checkbox" name="genre" value="Romance" {"checked" if "Romance" in movie["genre"] else ""}> Romance
+          <input type="checkbox" name="genre" value="Sci-Fi" {"checked" if "Sci-Fi" in movie["genre"] else ""}> Sci-Fi          
+          <input type="checkbox" name="genre" value="Thriller" {"checked" if "Thriller" in movie["genre"] else ""}> Thriller
+        </fieldset>"""
+
+    return f"""<body class="body_form">
+    <a href="/movies" ><img class="back_arrow" src="/static/respuesta.png" alt="Back Arrow"></a>
+    <h1>{title}</h1>
+    <form class="formulario" action={actions} method="post">       
+       
+        {_inputs}
+       <label class="label-form" for="genre">Genre</label>
+        {checked}
+        
+        <label class="label-form" for="synopsis">Synopsis:</label>
         <textarea class="textarea-form" id="synopsis" name="synopsis" rows="4" required></textarea>
         
         <button class="button_form" type="submit">Add Movie</button>
     </form>
-</body>
+</body>"""
+
+
+# Route to go to the form to add a new movie
+@app.get("/movies/addMovie", tags=["movies"], response_class=HTMLResponse)
+def get_formulario():
+
+    _form = f"""
+       {cabeza("Add a New Movie")}
+       {form("Add a New Movie","/movies/add")}
 </html>
     """
-    return HTMLResponse(content=form)
+    return HTMLResponse(content=_form)
 
 
 # Route to handle form submission for adding a new movie
@@ -176,8 +208,8 @@ def post_movie(
     movies.append(
         {
             "id": id,
-            "title": title,
-            "director": director,
+            "title": title.capitalize(),
+            "director": director.capitalize(),
             "year": year,
             "genre": genre,
             "synopsis": synopsis,
@@ -224,46 +256,21 @@ def update_form(id: int):
         )  # If the movie is not found, it returns an error message and the 404 code
     #  When submitting the form, it references the path /movies/update/{id} with the POST method and sends the form data
     # With this expression, the genres that the movie contains are selected and the corresponding checkboxes are marked "checked" if "Crime" in movie["genre"] else ""
-    form = f"""
+    _form = f"""
          {cabeza("Edit Movie")}
-<body class="body_form">
-    <a href="/movies" ><img class="back_arrow" src="/static/respuesta.png" alt="Back Arrow"></a>
-    <h1>Edit Movie</h1>
-    <form class="formulario" action="/movies/update/{id}" method="post">  
-        <label class="label-form" for="title">Title:</label>
-        <input class="input-form" type="text" id="title" name="title" value="{movie['title']}" required>
-        
-        <label class="label-form" for="director">Director:</label>
-        <input class="input-form" type="text" id="director" name="director" value="{movie['director']}" required>
-        
-        <label class="label-form" for="year">Year:</label>
-        <input class="input-form" type="number" id="year" name="year" value="{movie['year']}" min=1888 required>
-        
-        <label class="label-form" for="genre">Genre</label>
-        <fieldset class="genre_options">
-          <input type="checkbox" name="genre" value="Action" {"checked" if "Action" in movie["genre"] else ""}> Action
-          <input type="checkbox" name="genre" value="Adventure" {"checked" if "Adventure" in movie["genre"] else ""}> Adventure
-          <input type="checkbox" name="genre" value="Crime" {"checked" if "Crime" in movie["genre"] else ""}> Crime
-          <input type="checkbox" name="genre" value="Drama" {"checked" if "Drama" in movie["genre"] else ""}> Drama
-          <input type="checkbox" name="genre" value="Romance" {"checked" if "Romance" in movie["genre"] else ""}> Romance
-          <input type="checkbox" name="genre" value="Sci-Fi" {"checked" if "Sci-Fi" in movie["genre"] else ""}> Sci-Fi          
-          <input type="checkbox" name="genre" value="Thriller" {"checked" if "Thriller" in movie["genre"] else ""}> Thriller
-        </fieldset>
-        
-        <label class="label-form" for="synopsis">Synopsis:</label>
-        <textarea class="textarea-form" id="synopsis" name="synopsis" rows="4" required>{movie['synopsis']}</textarea>
-        
-        <button class="button_form" type="submit">Update Movie</button>
-    </form>
-</body>
+         {form("Edit Movie","/movies/update/{id}", movie)}
+
 </html>
     """
-    return HTMLResponse(content=form)
+    return HTMLResponse(content=_form)
 
 
 # Route to delete a movie
+@app.get("/movies/delete/{id}", tags=["movies"])
 # For user interface reasons, a route is created to delete a movie using the GET method <<it's not a good practice, but it looks nice and I don't want to use js>>
 def eliminar_pelicula(id: int):
+    print(id)
+    print(type(id))
     for movie in movies:
         if movie["id"] == int(id):
             movies.remove(movie)
