@@ -21,6 +21,10 @@ Follow these steps to install FastAPI and `uvicorn`.
    ```sh
    pip install "uvicorn[standard]"
 
+ 5. **You can run it inside your projects folder**
+    ```sh
+    python main.py
+
 # Some images of my little project
 
 ![Screenshot 2024-06-29 125509](https://github.com/garcia-lopez/Basic-CRUD/assets/111716690/ea6b87cd-681d-4087-a44b-0cf5e5cf0a71)
