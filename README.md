@@ -37,4 +37,5 @@ Follow these steps to install FastAPI and `uvicorn`.
 
 ![Screenshot 2024-06-29 125546](https://github.com/garcia-lopez/Basic-CRUD/assets/111716690/826ff442-da84-4786-b689-612e57df2320)
 
-![Screenshot 2024-06-29 125559](https://github.com/garcia-lopez/Basic-CRUD/assets/111716690/e3c2806b-c765-4fa0-9acd-8b7418004eef)
+![Screenshot 2024-06-29 131137](https://github.com/garcia-lopez/Basic-CRUD/assets/111716690/20c56fc1-ca5a-46ed-b752-75d23d7e356b)
+
