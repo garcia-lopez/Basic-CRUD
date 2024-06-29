@@ -1,7 +1,7 @@
 # Basic-CRUD with Python and FastAPI
  I was bored and wanted to do some stuff. I primarily did it to practice HTML and CSS."
 
-#If you want to try it out, here are the steps to run this project.
+# If you want to try it out, here are the steps to run this project.
 
 Follow these steps to install FastAPI and `uvicorn`.
 
