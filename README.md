@@ -17,7 +17,7 @@ Follow these steps to install FastAPI and `uvicorn`.
    ```sh
    pip install fastapi
 
-4. **Install an ASGI server (e.g., `uvicorn`):
+4. **Install an ASGI server (e.g., `uvicorn`)**:
    ```sh
    pip install "uvicorn[standard]"
 
