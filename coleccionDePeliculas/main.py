@@ -293,6 +293,7 @@ def delete_form(id: int):
                 <a href="/movies">
                 <button class="button_class_categories" type="button">No</button>
                 </a>
+                <div class="space"></div>
                 <a href="/movies/delete/{id}">
                 <button class="button_class_categories" type="submit">Yes</button>
                 </a>
