@@ -1,5 +1,5 @@
 # Basic-CRUD with Python and FastAPI
- I was bored and wanted to do some stuff. I mainly did it to practice HTML and CSS.
+I wanted to take the opportunity to practice with FAST API while enhancing my skills in HTML and CSS.
 
 # If you want to try it out, here are the steps to run this project.
 
